@@ -6,3 +6,17 @@
 
 Use this boilerplate for future project to integrate llm call for example
 `still need Deserialize` as we use only `Serialize`
+
+# dependencied
+- install `axum`, `serde`, `tokio` (Japan!)
+```rust
+cargo add axum
+cargo add serde --feature derive
+cargo add toki --feature full
+# optionally if needed
+cargo add serde_json
+```
+- this one to refresh when changing code without needing to manually recompile
+```rust
+cargo watch -x "run"`
+```
