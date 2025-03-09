@@ -91,8 +91,9 @@ fn router() -> Router {
     // 2- create another route path to make post request
     // or any logic there
     .route(
-      "/structured_output",
+      "/structured-output",
       post(post_message_json_handler)
+      .get(friendly_utopic_message)
     )
 }
 
@@ -184,6 +185,15 @@ async fn post_message_json_handler(
 // and then finish our function logic
 // `Serialize` and `Deserialize` cause we will send it out and receive
 #[derive(Serialize, Deserialize)]
+// serde parsing is `lazy`
+// imagine that you are calling an LLM and you just
+// need some specific fields.
+// You use `struct` to catch those
+// and it behavior is to ignore other fields (eg:`metrics`)
+// here we are going to make it strict
+// so it doesn't ignore fields but return an error
+// more strict = using decorator with `deny_unknown_fields`
+#[serde(deny_unknown_fields)]
 struct Tsutaya {
   affluence: u64,
   location: String,
@@ -200,9 +210,9 @@ struct TsutayaResponse {
   tsutaya_from_api: Tsutaya,
 }
 
-
-
-
+async fn friendly_utopic_message() -> impl IntoResponse {
+  "No war, Peace and Love!\n"
+}
 
 
 
